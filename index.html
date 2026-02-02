@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCHUHHAUS WOLF — Luxury Footwear Stuttgart</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg: #E8E8E8;
+            --bg-light: #F2F2F2;
+            --text: #1a1a1a;
+            --text-light: #888888;
+            --text-muted: #CCCCCC;
+            --accent: #c44;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        ::selection {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* ========================================
+           WOLF LOGO CURSOR WITH GLOW
+        ======================================== */
+        .cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999999;
+            transition: opacity 0.3s ease;
+            width: 45px;
+            height: 45px;
+        }
+
+        .cursor svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--text);
+            transition: fill 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .cursor.active svg {
+            fill: var(--accent);
+        }
+
+        .cursor.hidden { opacity: 0; }
+
+        /* Glow effect around wolf cursor */
+        .cursor-glow {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(200, 68, 68, 0.3) 0%, rgba(200, 68, 68, 0.1) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999998;
+            transform: translate(-50%, -50%);
+            filter: blur(20px);
+        }
+
+        /* Secondary larger glow */
+        .cursor-glow-outer {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(200, 68, 68, 0.1) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            filter: blur(40px);
+        }
+
+        /* ========================================
+           BRAND TRIBUTE INTRO - EXPLOSIVE
+        ======================================== */
+        .intro {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .intro-brands {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0.04;
+        }
+
+        .brand-line {
+            display: flex;
+            white-space: nowrap;
+            animation: scrollBrands 20s linear infinite;
+        }
+
+        .brand-line:nth-child(even) { animation-direction: reverse; }
+
+        .brand-line span {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            padding: 0 1.5rem;
+        }
+
+        @keyframes scrollBrands {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .intro-brand-focus {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .intro-brand-focus .brand-name {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            animation: brandReveal 0.5s ease forwards;
+        }
+
+        @keyframes brandReveal {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            50% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+        }
+
+        .intro-tagline {
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-top: 1.5rem;
+            opacity: 0;
+        }
+
+        .intro.fade-out {
+            animation: introExplode 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        @keyframes introExplode {
+            0% { clip-path: circle(100% at 50% 50%); }
+            100% { clip-path: circle(0% at 50% 50%); }
+        }
+
+        /* ========================================
+           NAVIGATION
+        ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            mix-blend-mode: difference;
+        }
+
+        nav * { color: var(--white); }
+
+        .nav-logo {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .nav-logo sup { font-size: 0.4rem; vertical-align: super; }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu li::before, .nav-menu li::after {
+            content: '•';
+            font-size: 0.25rem;
+            opacity: 0.5;
+        }
+
+        .nav-menu a {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-menu a:hover { opacity: 1; }
+
+        /* ========================================
+           HERO - MASSIVE TYPOGRAPHY
+        ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* Giant side letters */
+        .side-letter {
+            position: fixed;
+            font-size: 45vh;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(26, 26, 26, 0.04);
+            z-index: 0;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .side-letter.left { left: -8vw; top: 50%; transform: translateY(-50%); }
+        .side-letter.right { right: -8vw; top: 50%; transform: translateY(-50%); }
+
+        /* Main title - HUGE */
+        .hero-title {
+            font-size: clamp(4rem, 14vw, 16rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 0.85;
+            text-transform: uppercase;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-title .line span {
+            display: inline-block;
+            transform: translateY(100%);
+            animation: slideUp 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        .hero-title .line:nth-child(2) span { animation-delay: 0.15s; }
+
+        @keyframes slideUp { to { transform: translateY(0); } }
+
+        /* Interactive letter effect */
+        .hero-title .char {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s ease;
+        }
+
+        .hero-title .char:hover {
+            transform: translateY(-15px) scale(1.1);
+            color: var(--accent);
+        }
+
+        /* Animated underline */
+        .title-underline {
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--text), var(--accent));
+            background-size: 200% 100%;
+            margin-top: 1.5rem;
+            animation: lineExpand 1.5s cubic-bezier(0.76, 0, 0.24, 1) forwards 1s, gradientMove 3s linear infinite 2s;
+        }
+
+        @keyframes lineExpand { to { width: 180px; } }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* CIRCULAR ROTATING TEXT */
+        .circular-text {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            z-index: 5;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.5s;
+        }
+
+        .circular-text svg {
+            width: 100%;
+            height: 100%;
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        .circular-text text {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            fill: rgba(26, 26, 26, 0.25);
+        }
+
+        @keyframes rotateSlow { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        /* Bottom info */
+        .hero-bottom {
+            position: absolute;
+            bottom: 3rem;
+            left: 3rem;
+            right: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.8s;
+        }
+
+        .hero-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.55rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .hero-label::before {
+            content: '•';
+            color: var(--accent);
+        }
+
+        .scroll-arrows {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .scroll-arrows span {
+            animation: bounce 2s ease infinite;
+        }
+
+        .scroll-arrows span:nth-child(2) { animation-delay: 0.15s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* Floating words */
+        .floating-word {
+            position: absolute;
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(26, 26, 26, 0.12);
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 2s;
+        }
+
+        .floating-word:nth-child(1) { top: 25%; right: 12%; }
+        .floating-word:nth-child(2) { top: 38%; right: 22%; }
+        .floating-word:nth-child(3) { top: 50%; right: 15%; }
+        .floating-word:nth-child(4) { top: 62%; right: 25%; }
+        .floating-word:nth-child(5) { top: 72%; right: 18%; }
+
+        /* ========================================
+           MAGNETIC BUTTONS
+        ======================================== */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--text);
+            color: var(--bg);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .magnetic-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .magnetic-btn:hover::before { transform: translateY(0); }
+
+        .magnetic-btn span { position: relative; z-index: 1; }
+
+        /* ========================================
+           BRANDS MARQUEE
+        ======================================== */
+        .brands-marquee {
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: marquee 40s linear infinite;
+        }
+
+        .marquee-track:hover { animation-play-state: paused; }
+
+        .marquee-track span {
+            flex-shrink: 0;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .marquee-track span:hover {
+            color: var(--text);
+            transform: scale(1.1);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ========================================
+           PRODUCTS SECTION
+        ======================================== */
+        .products-section {
+            padding: 8rem 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 300;
+        }
+
+        .section-header h2 span { font-weight: 900; }
+
+        .section-header a {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .section-header a:hover { color: var(--text); }
+
+        /* Products Grid with 3D hover */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            position: relative;
+            background: var(--bg-light);
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+        }
+
+        .product-image {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.4rem 0.8rem;
+        }
+
+        .product-badge.new { background: #2E7D32; }
+        .product-badge.sale { background: var(--accent); }
+
+        .product-wishlist {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-wishlist {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .product-wishlist svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text);
+            fill: none;
+            stroke-width: 1.5;
+            transition: all 0.3s ease;
+        }
+
+        .product-wishlist:hover svg {
+            fill: var(--accent);
+            stroke: var(--accent);
+        }
+
+        .product-info { padding: 1.5rem; }
+
+        .product-brand {
+            font-size: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .product-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+        }
+
+        .product-price {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .product-price .old {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-right: 0.5rem;
+        }
+
+        .product-quick-view {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--text);
+            color: var(--bg);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-quick-view {
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           FULL IMAGE PARALLAX SECTION
+        ======================================== */
+        .parallax-section {
+            height: 80vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            inset: -10%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.1s linear;
+        }
+
+        .parallax-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--white);
+        }
+
+        .parallax-content h3 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .parallax-content p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        /* ========================================
+           INTERACTIVE ABOUT SECTION
+        ======================================== */
+        .about-section {
+            padding: 10rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            transition: transform 0.8s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: -2rem;
+            right: -2rem;
+            width: 140px;
+            height: 140px;
+            background: var(--text);
+            color: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: floatBadge 3s ease-in-out infinite;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .about-badge .year {
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .about-badge .text {
+            font-size: 0.5rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .about-content h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+        }
+
+        .about-content h2 span { font-weight: 800; }
+
+        .about-content p {
+            font-size: 0.9rem;
+            line-height: 2;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        /* ========================================
+           SURPRISE 1: SHOE PRINT TRAIL
+        ======================================== */
+        .shoe-print {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99990;
+            width: 20px;
+            height: 30px;
+            opacity: 0.15;
+            transition: opacity 2s ease;
+        }
+
+        .shoe-print svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--text);
+        }
+
+        .shoe-print.fade {
+            opacity: 0;
+        }
+
+        /* ========================================
+           SURPRISE 2: MAGNETIC TEXT SCRAMBLE
+        ======================================== */
+        .scramble-text {
+            display: inline-block;
+        }
+
+        .scramble-text .char {
+            display: inline-block;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .scramble-text .char.scrambling {
+            animation: scrambleChar 0.1s ease infinite;
+            color: var(--accent);
+        }
+
+        @keyframes scrambleChar {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-2px) rotate(-5deg); }
+            75% { transform: translateY(2px) rotate(5deg); }
+        }
+
+        /* ========================================
+           WOLF HOWL EFFECT ON LOGO CLICK
+        ======================================== */
+        .howl-ring {
+            position: fixed;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999997;
+            animation: howlExpand 1s ease-out forwards;
+        }
+
+        @keyframes howlExpand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        /* Sound wave lines */
+        .sound-wave {
+            position: fixed;
+            width: 3px;
+            height: 20px;
+            background: var(--accent);
+            pointer-events: none;
+            z-index: 999996;
+            animation: waveMove 0.8s ease-out forwards;
+            transform-origin: bottom center;
+        }
+
+        @keyframes waveMove {
+            0% {
+                opacity: 1;
+                transform: scaleY(0.3);
+            }
+            50% {
+                transform: scaleY(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scaleY(0.3) translateY(-50px);
+            }
+        }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+        footer {
+            padding: 10rem 3rem 3rem;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1.5fr;
+            gap: 4rem;
+            margin-bottom: 8rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.75rem;
+            line-height: 1.9;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--text);
+            border-color: var(--text);
+            color: var(--bg);
+            transform: translateY(-5px);
+        }
+
+        .footer-social svg { width: 16px; height: 16px; }
+
+        /* Interactive Arrow Grid */
+        .arrow-grid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .arrow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+        }
+
+        .arrow-grid .cell {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: default;
+        }
+
+        .arrow-grid .cell:hover {
+            color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .arrow-grid .cell.dot::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 1.5s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .arrow-grid .cell.pipe {
+            font-weight: 300;
+            color: var(--text-light);
+        }
+
+        .footer-contact h4 {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .footer-contact p {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-contact a {
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact a:hover { color: var(--accent); }
+
+        .footer-hours {
+            margin-top: 1.5rem;
+        }
+
+        .footer-hours h5 {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .footer-copy {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover { color: var(--text); }
+
+        /* ========================================
+           REVEAL
+        ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 1200px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 1024px) {
+            nav { padding: 1rem 2rem; }
+            .nav-menu { display: none; }
+            .hero-title { font-size: clamp(2.5rem, 12vw, 8rem); }
+            .products-section { padding: 5rem 2rem; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .about-section { grid-template-columns: 1fr; gap: 4rem; padding: 6rem 2rem; }
+            .footer-main { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+            .footer-social { justify-content: center; }
+            .footer-contact { text-align: center; }
+            .side-letter, .floating-word, .cursor-glow { display: none; }
+            .hero-bottom { left: 2rem; right: 2rem; bottom: 2rem; }
+            .circular-text { width: 150px; height: 150px; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title { font-size: clamp(2rem, 14vw, 5rem); }
+            .products-grid { gap: 1rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+            .arrow-grid .cell { width: 35px; height: 35px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="no-scroll">
+    <!-- Wolf Logo Cursor with Glow -->
+    <div class="cursor" id="cursor">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <!-- Wolf Head Silhouette -->
+            <path d="M32 4 L24 16 L16 14 L18 24 L8 28 L16 32 L12 44 L20 40 L24 52 L28 44 L32 56 L36 44 L40 52 L44 40 L52 44 L48 32 L56 28 L46 24 L48 14 L40 16 L32 4Z"/>
+            <!-- Eyes -->
+            <circle cx="26" cy="28" r="2" fill="#E8E8E8"/>
+            <circle cx="38" cy="28" r="2" fill="#E8E8E8"/>
+        </svg>
+    </div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor-glow-outer" id="cursorGlowOuter"></div>
+
+    <!-- Side Letters -->
+    <div class="side-letter left">W</div>
+    <div class="side-letter right">W</div>
+
+    <!-- ========================================
+         BRAND INTRO
+    ======================================== -->
+    <div class="intro" id="intro">
+        <div class="intro-brands">
+            <div class="brand-line">
+                <span>AGL</span><span>Voile Blanche</span><span>Premiata</span><span>Paul Green</span><span>Birkenstock</span><span>Steve Madden</span>
+                <span>AGL</span><span>Voile Blanche</span><span>Premiata</span><span>Paul Green</span><span>Birkenstock</span><span>Steve Madden</span>
+            </div>
+            <div class="brand-line">
+                <span>Roberto Festa</span><span>Bibi Lou</span><span>Kennel & Schmenger</span><span>Brunate</span><span>Truman's</span><span>Pons Quintana</span>
+                <span>Roberto Festa</span><span>Bibi Lou</span><span>Kennel & Schmenger</span><span>Brunate</span><span>Truman's</span><span>Pons Quintana</span>
+            </div>
+            <div class="brand-line">
+                <span>Pedro Miralles</span><span>AGL</span><span>Steve Madden</span><span>Premiata</span><span>Birkenstock</span><span>Paul Green</span>
+                <span>Pedro Miralles</span><span>AGL</span><span>Steve Madden</span><span>Premiata</span><span>Birkenstock</span><span>Paul Green</span>
+            </div>
+        </div>
+        <div class="intro-brand-focus">
+            <div class="brand-name" id="focusBrand"></div>
+        </div>
+        <p class="intro-tagline" id="introTagline">Luxury Footwear Since 1952</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="nav-logo">Schuhhaus Wolf<sup>®</sup></a>
+        <ul class="nav-menu">
+            <li><a href="#women">Women</a></li>
+            <li><a href="#men">Men</a></li>
+            <li><a href="#brands">Brands</a></li>
+            <li><a href="#new">New In</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- ========================================
+         HERO
+    ======================================== -->
+    <section class="hero" id="hero">
+        <h1 class="hero-title" id="heroTitle">
+            <span class="line"><span id="line1">SCHUHHAUS</span></span>
+            <span class="line"><span id="line2">WOLF</span></span>
+        </h1>
+
+        <div class="title-underline"></div>
+
+        <!-- Circular rotating text -->
+        <div class="circular-text" id="circularText">
+            <svg viewBox="0 0 200 200">
+                <defs>
+                    <path id="circlePath" d="M 100, 100 m -80, 0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0"/>
+                </defs>
+                <text>
+                    <textPath href="#circlePath">
+                        POWER OF ATTRACTION • LUXURY FOOTWEAR • POWER OF ATTRACTION • LUXURY FOOTWEAR •
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+
+        <!-- Floating words -->
+        <div class="floating-word">ELEGANCE</div>
+        <div class="floating-word">CRAFTED</div>
+        <div class="floating-word">LUXURY</div>
+        <div class="floating-word">PREMIUM</div>
+        <div class="floating-word">STYLE</div>
+
+        <div class="hero-bottom">
+            <span class="hero-label">Selected Collections 2018 — 2025</span>
+            <div class="scroll-arrows">
+                <span>↓</span>
+                <span>↓</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Marquee -->
+    <div class="brands-marquee" id="brands">
+        <div class="marquee-track">
+            <span>AGL</span><span>Voile Blanche</span><span>Roberto Festa</span><span>Bibi Lou</span><span>Premiata</span><span>Pedro Miralles</span><span>Brunate</span><span>Truman's</span><span>Steve Madden</span><span>Kennel & Schmenger</span><span>Pons Quintana</span><span>Paul Green</span><span>Birkenstock</span>
+            <span>AGL</span><span>Voile Blanche</span><span>Roberto Festa</span><span>Bibi Lou</span><span>Premiata</span><span>Pedro Miralles</span><span>Brunate</span><span>Truman's</span><span>Steve Madden</span><span>Kennel & Schmenger</span><span>Pons Quintana</span><span>Paul Green</span><span>Birkenstock</span>
+        </div>
+    </div>
+
+    <!-- New Arrivals -->
+    <section class="products-section" id="new">
+        <div class="section-header reveal">
+            <h2><span>New</span> Arrivals</h2>
+            <a href="#">View All →</a>
+        </div>
+        <div class="products-grid">
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=85" alt="AGL">
+                    <span class="product-badge new">New</span>
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">AGL</p>
+                    <h3 class="product-name">Attilio Giusti Leombruni</h3>
+                    <p class="product-price">€ 395</p>
+                </div>
+            </article>
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&q=85" alt="Premiata">
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Premiata</p>
+                    <h3 class="product-name">Mick Runner</h3>
+                    <p class="product-price">€ 280</p>
+                </div>
+            </article>
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=85" alt="Voile Blanche">
+                    <span class="product-badge sale">-20%</span>
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Voile Blanche</p>
+                    <h3 class="product-name">Club 01 Platinum</h3>
+                    <p class="product-price"><span class="old">€ 295</span>€ 236</p>
+                </div>
+            </article>
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=85" alt="Steve Madden">
+                    <span class="product-badge new">New</span>
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Steve Madden</p>
+                    <h3 class="product-name">Maxima Platform</h3>
+                    <p class="product-price">€ 159</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Women's Collection -->
+    <section class="parallax-section" id="women">
+        <div class="parallax-bg" id="parallax1" style="background-image: url('https://images.unsplash.com/photo-1560343090-f0409e92791a?w=1800&q=90');"></div>
+        <div class="parallax-content">
+            <h3>Women's Collection</h3>
+            <p>Elegant designs for every occasion</p>
+            <a href="#" class="magnetic-btn"><span>Shop Now</span></a>
+        </div>
+    </section>
+
+    <!-- Women's Products -->
+    <section class="products-section">
+        <div class="section-header reveal">
+            <h2>Women's <span>Picks</span></h2>
+            <a href="#">View All →</a>
+        </div>
+        <div class="products-grid">
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=85" alt="Bibi Lou">
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Bibi Lou</p>
+                    <h3 class="product-name">Strappy Heel Sandal</h3>
+                    <p class="product-price">€ 185</p>
+                </div>
+            </article>
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=85" alt="Kennel">
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Kennel & Schmenger</p>
+                    <h3 class="product-name">Town Sneaker</h3>
+                    <p class="product-price">€ 229</p>
+                </div>
+            </article>
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=600&q=85" alt="Paul Green">
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Paul Green</p>
+                    <h3 class="product-name">München Loafer</h3>
+                    <p class="product-price">€ 199</p>
+                </div>
+            </article>
+            <article class="product-card tilt-card reveal">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=85" alt="Pons">
+                    <span class="product-badge new">New</span>
+                    <div class="product-wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="product-quick-view">Quick View</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Pons Quintana</p>
+                    <h3 class="product-name">Menorca Avarca</h3>
+                    <p class="product-price">€ 145</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Men's Collection -->
+    <section class="parallax-section" id="men">
+        <div class="parallax-bg" id="parallax2" style="background-image: url('https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=1800&q=90');"></div>
+        <div class="parallax-content">
+            <h3>Men's Collection</h3>
+            <p>Refined style for the modern gentleman</p>
+            <a href="#" class="magnetic-btn"><span>Shop Now</span></a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section">
+        <div class="about-image reveal">
+            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1000&q=90" alt="Store">
+            <div class="about-badge">
+                <span class="year">70+</span>
+                <span class="text">Years</span>
+            </div>
+        </div>
+        <div class="about-content reveal">
+            <h2>Your Trusted <span>Footwear Destination</span> in Stuttgart</h2>
+            <p>Since 1952, Schuhhaus Wolf has been Stuttgart-Möhringen's premier destination for luxury European footwear. We curate only the finest brands — from Italian craftsmanship to German precision.</p>
+            <p>Visit our boutique to experience personalized service and discover your perfect fit.</p>
+            <a href="#contact" class="magnetic-btn"><span>Visit Our Store</span></a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <h3>Schuhhaus Wolf</h3>
+                <p>Your trusted destination for luxury European footwear in Stuttgart since 1952. Curating the finest brands for discerning customers.</p>
+                <div class="footer-social">
+                    <a href="https://facebook.com" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                    <a href="https://instagram.com" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                </div>
+            </div>
+
+            <div class="arrow-grid-container">
+                <div class="arrow-grid" id="arrowGrid">
+                    <div class="cell letter">W</div>
+                    <div class="cell arrow">↓</div>
+                    <div class="cell letter">O</div>
+                    <div class="cell letter">L</div>
+                    <div class="cell letter">F</div>
+                    <div class="cell pipe">|</div>
+                    <div class="cell letter">S</div>
+                    <div class="cell arrow">↙</div>
+                    <div class="cell arrow">→</div>
+                    <div class="cell dot"></div>
+                    <div class="cell letter">1</div>
+                    <div class="cell letter">9</div>
+                    <div class="cell arrow">↗</div>
+                    <div class="cell arrow">↑</div>
+                    <div class="cell arrow">↖</div>
+                    <div class="cell letter">52</div>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Visit Us</h4>
+                <p>Filderbahnstr. 44</p>
+                <p>Stuttgart - Möhringen</p>
+                <p style="margin-top: 1rem;"><a href="tel:+49711713706">+49 711 713706</a></p>
+                <p><a href="mailto:kontakt@schuhhaus-wolf.de">kontakt@schuhhaus-wolf.de</a></p>
+                <div class="footer-hours">
+                    <h5>Opening Hours</h5>
+                    <p>Monday - Friday: 10:00 - 18:30</p>
+                    <p>Saturday: 9:30 - 14:00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span class="footer-copy">© 2024 Schuhhaus Wolf. All rights reserved.</span>
+            <div class="footer-links">
+                <a href="#">Legal Notice</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========================================
+        // BRAND INTRO SEQUENCE
+        // ========================================
+        const brands = ['AGL', 'Voile Blanche', 'Roberto Festa', 'Bibi Lou', 'Premiata', 'Pedro Miralles', 'Brunate', "Truman's", 'Steve Madden', 'Kennel & Schmenger', 'Pons Quintana', 'Paul Green', 'Birkenstock'];
+        const intro = document.getElementById('intro');
+        const focusBrand = document.getElementById('focusBrand');
+        const introTagline = document.getElementById('introTagline');
+        let brandIndex = 0;
+
+        function showNextBrand() {
+            if (brandIndex < brands.length) {
+                focusBrand.textContent = brands[brandIndex];
+                focusBrand.style.animation = 'none';
+                focusBrand.offsetHeight;
+                focusBrand.style.animation = 'brandReveal 0.5s ease forwards';
+                brandIndex++;
+                setTimeout(showNextBrand, 450);
+            } else {
+                introTagline.style.animation = 'fadeIn 0.5s ease forwards';
+                setTimeout(() => {
+                    intro.classList.add('fade-out');
+                    document.body.classList.remove('no-scroll');
+                }, 1000);
+            }
+        }
+        setTimeout(showNextBrand, 300);
+
+        // ========================================
+        // WOLF CURSOR - ROTATES TOWARD MOVEMENT
+        // ========================================
+        const cursor = document.getElementById('cursor');
+        const cursorGlow = document.getElementById('cursorGlow');
+        const cursorGlowOuter = document.getElementById('cursorGlowOuter');
+        let mouseX = 0, mouseY = 0;
+        let prevMouseX = 0, prevMouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let glowX = 0, glowY = 0;
+        let glowOuterX = 0, glowOuterY = 0;
+        let cursorRotation = 0;
+        let targetRotation = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            prevMouseX = mouseX;
+            prevMouseY = mouseY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Calculate movement direction for wolf rotation
+            const deltaX = mouseX - prevMouseX;
+            const deltaY = mouseY - prevMouseY;
+            
+            if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
+                targetRotation = Math.atan2(deltaY, deltaX) * (180 / Math.PI) + 90;
+            }
+        });
+
+        function animateCursor() {
+            // Smooth rotation interpolation
+            let rotationDiff = targetRotation - cursorRotation;
+            
+            // Handle rotation wrap-around
+            if (rotationDiff > 180) rotationDiff -= 360;
+            if (rotationDiff < -180) rotationDiff += 360;
+            
+            cursorRotation += rotationDiff * 0.1;
+
+            // Wolf cursor position
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX - 22 + 'px';
+            cursor.style.top = cursorY - 22 + 'px';
+            cursor.style.transform = `rotate(${cursorRotation}deg)`;
+
+            // Inner glow
+            glowX += (mouseX - glowX) * 0.1;
+            glowY += (mouseY - glowY) * 0.1;
+            if (cursorGlow) {
+                cursorGlow.style.left = glowX + 'px';
+                cursorGlow.style.top = glowY + 'px';
+            }
+
+            // Outer glow
+            glowOuterX += (mouseX - glowOuterX) * 0.04;
+            glowOuterY += (mouseY - glowOuterY) * 0.04;
+            if (cursorGlowOuter) {
+                cursorGlowOuter.style.left = glowOuterX + 'px';
+                cursorGlowOuter.style.top = glowOuterY + 'px';
+            }
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // ========================================
+        // SURPRISE 1: SHOE PRINT TRAIL
+        // Leave footprints as you move across the page!
+        // ========================================
+        let lastPrintTime = 0;
+        let printSide = 'left';
+        let lastPrintX = 0;
+        let lastPrintY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            const distance = Math.sqrt(
+                Math.pow(e.clientX - lastPrintX, 2) + 
+                Math.pow(e.clientY - lastPrintY, 2)
+            );
+
+            // Create print every 80px of movement
+            if (distance > 80 && now - lastPrintTime > 100) {
+                createShoePrint(e.clientX, e.clientY, printSide);
+                printSide = printSide === 'left' ? 'right' : 'left';
+                lastPrintTime = now;
+                lastPrintX = e.clientX;
+                lastPrintY = e.clientY;
+            }
+        });
+
+        function createShoePrint(x, y, side) {
+            const print = document.createElement('div');
+            print.className = 'shoe-print';
+            
+            // Calculate angle based on movement direction
+            const angle = Math.atan2(mouseY - prevMouseY, mouseX - prevMouseX) * (180 / Math.PI);
+            
+            // Offset left/right foot
+            const offsetX = side === 'left' ? -15 : 15;
+            
+            print.style.left = (x + offsetX) + 'px';
+            print.style.top = y + 'px';
+            print.style.transform = `rotate(${angle + 90}deg) scaleX(${side === 'left' ? 1 : -1})`;
+            
+            // Shoe sole SVG
+            print.innerHTML = `
+                <svg viewBox="0 0 24 36">
+                    <ellipse cx="12" cy="8" rx="8" ry="6"/>
+                    <ellipse cx="12" cy="24" rx="10" ry="10"/>
+                    <rect x="6" y="12" width="12" height="8" rx="2"/>
+                </svg>
+            `;
+            
+            document.body.appendChild(print);
+            
+            // Fade out and remove
+            setTimeout(() => print.classList.add('fade'), 100);
+            setTimeout(() => print.remove(), 2500);
+        }
+
+        // ========================================
+        // SURPRISE 2: WOLF HOWL ON NAV LOGO CLICK
+        // Click the logo for a howl effect!
+        // ========================================
+        const navLogo = document.querySelector('.nav-logo');
+        
+        navLogo.addEventListener('click', (e) => {
+            e.preventDefault();
+            createHowlEffect(e.clientX, e.clientY);
+        });
+
+        function createHowlEffect(x, y) {
+            // Create expanding rings
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const ring = document.createElement('div');
+                    ring.className = 'howl-ring';
+                    ring.style.left = x + 'px';
+                    ring.style.top = y + 'px';
+                    ring.style.marginLeft = '-150px';
+                    ring.style.marginTop = '-150px';
+                    document.body.appendChild(ring);
+                    setTimeout(() => ring.remove(), 1000);
+                }, i * 150);
+            }
+
+            // Create sound wave lines
+            for (let i = 0; i < 8; i++) {
+                const wave = document.createElement('div');
+                wave.className = 'sound-wave';
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 50;
+                wave.style.left = (x + Math.cos(angle) * distance) + 'px';
+                wave.style.top = (y + Math.sin(angle) * distance) + 'px';
+                wave.style.transform = `rotate(${(angle * 180 / Math.PI) + 90}deg)`;
+                wave.style.animationDelay = (i * 0.05) + 's';
+                document.body.appendChild(wave);
+                setTimeout(() => wave.remove(), 1000);
+            }
+
+            // Shake the hero title
+            const heroTitle = document.getElementById('heroTitle');
+            heroTitle.style.animation = 'none';
+            heroTitle.offsetHeight;
+            heroTitle.style.animation = 'howlShake 0.5s ease';
+        }
+
+        // Add howl shake animation dynamically
+        const howlStyle = document.createElement('style');
+        howlStyle.textContent = `
+            @keyframes howlShake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(howlStyle);
+
+        // ========================================
+        // BONUS: TEXT SCRAMBLE ON BRAND HOVER
+        // ========================================
+        const brandNames = document.querySelectorAll('.product-brand, .marquee-track span');
+        const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        brandNames.forEach(brand => {
+            const originalText = brand.textContent;
+            
+            brand.addEventListener('mouseenter', () => {
+                let iterations = 0;
+                const maxIterations = originalText.length;
+                
+                const interval = setInterval(() => {
+                    brand.textContent = originalText
+                        .split('')
+                        .map((char, index) => {
+                            if (index < iterations) return originalText[index];
+                            if (char === ' ') return ' ';
+                            return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+                        })
+                        .join('');
+                    
+                    iterations += 0.5;
+                    
+                    if (iterations >= maxIterations) {
+                        clearInterval(interval);
+                        brand.textContent = originalText;
+                    }
+                }, 30);
+            });
+        });
+
+        // Cursor hover states
+        document.querySelectorAll('a, button, .product-card, .magnetic-btn, .product-wishlist, .arrow-grid .cell').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        cursor.classList.add('hidden');
+        setTimeout(() => cursor.classList.remove('hidden'), brands.length * 450 + 1200);
+
+        // ========================================
+        // INTERACTIVE HERO LETTERS
+        // ========================================
+        function wrapLetters(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.textContent;
+            el.innerHTML = text.split('').map(char => 
+                char === ' ' ? ' ' : `<span class="char">${char}</span>`
+            ).join('');
+        }
+
+        setTimeout(() => {
+            wrapLetters('line1');
+            wrapLetters('line2');
+        }, 1500);
+
+        // ========================================
+        // 3D TILT ON PRODUCT CARDS
+        // ========================================
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+
+        // ========================================
+        // SURPRISE 3: MAGNETIC BUTTONS
+        // ========================================
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // ========================================
+        // INTERACTIVE ARROW GRID
+        // ========================================
+        const arrowGrid = document.getElementById('arrowGrid');
+        const cells = arrowGrid.querySelectorAll('.cell');
+
+        arrowGrid.addEventListener('mousemove', (e) => {
+            cells.forEach((cell) => {
+                const rect = cell.getBoundingClientRect();
+                const cellX = rect.left + rect.width / 2;
+                const cellY = rect.top + rect.height / 2;
+                const distX = e.clientX - cellX;
+                const distY = e.clientY - cellY;
+                const dist = Math.sqrt(distX * distX + distY * distY);
+
+                if (dist < 80) {
+                    const force = (1 - dist / 80) * 15;
+                    cell.style.transform = `translate(${(distX / dist) * force}px, ${(distY / dist) * force}px)`;
+                } else {
+                    cell.style.transform = 'translate(0, 0)';
+                }
+            });
+        });
+
+        arrowGrid.addEventListener('mouseleave', () => {
+            cells.forEach(cell => cell.style.transform = 'translate(0, 0)');
+        });
+
+        // ========================================
+        // PARALLAX BACKGROUNDS
+        // ========================================
+        const parallaxBgs = document.querySelectorAll('.parallax-bg');
+
+        window.addEventListener('scroll', () => {
+            parallaxBgs.forEach(bg => {
+                const section = bg.parentElement;
+                const rect = section.getBoundingClientRect();
+                const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                const translateY = (scrollPercent - 0.5) * 100;
+                bg.style.transform = `translateY(${translateY}px)`;
+            });
+        });
+
+        // ========================================
+        // CIRCULAR TEXT FOLLOWS SCROLL
+        // ========================================
+        const circularText = document.getElementById('circularText');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            if (circularText && scrolled < window.innerHeight) {
+                const rotation = scrolled * 0.1;
+                circularText.querySelector('svg').style.transform = `rotate(${rotation}deg)`;
+            }
+        });
+
+        // ========================================
+        // SCROLL REVEAL
+        // ========================================
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('active'), i * 100);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '-50px' });
+
+        revealElements.forEach(el => observer.observe(el));
+
+        // ========================================
+        // FLOATING WORDS PARALLAX
+        // ========================================
+        const floatingWords = document.querySelectorAll('.floating-word');
+        const sideLetters = document.querySelectorAll('.side-letter');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            floatingWords.forEach((word, i) => {
+                word.style.transform = `translateY(${scrolled * (0.05 + i * 0.01)}px)`;
+            });
+            sideLetters.forEach((letter, i) => {
+                letter.style.transform = `translateY(calc(-50% + ${scrolled * 0.08 * (i === 0 ? 1 : -1)}px))`;
+            });
+        });
+
+        // ========================================
+        // SMOOTH SCROLL
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
